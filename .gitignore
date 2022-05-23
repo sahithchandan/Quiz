@@ -4,3 +4,6 @@ __pycache__/
 include
 bin
 lib
+
+# IDE files
+.idea/
