@@ -5,8 +5,9 @@ from graphql import GraphQLError
 from graphql_jwt.decorators import login_required
 from graphql_relay import from_global_id
 
-from api.quiz.models import Questionnaire, Questions, QuestionnaireUserAnswers
+from api.quiz.models import Questionnaire, Questions, QuestionnaireUserAnswers, Answers
 from api.quiz.schema import QuestionnaireNode, QuestionnaireUserAnswersNode
+from api.quiz.choices import QuestionnaireProgressChoices
 
 
 class CreateQuestionsInput(graphene.InputObjectType):
@@ -18,6 +19,16 @@ class CreateQuestionsInput(graphene.InputObjectType):
 
 class UpdateQuestionsInput(CreateQuestionsInput):
     id = graphene.String()
+    
+
+class AnswersInput(graphene.InputObjectType):
+    choice = graphene.List(graphene.String)
+    free_text = graphene.String()
+    
+
+class QuestionAnswersInput(graphene.InputObjectType):
+    id = graphene.String()
+    answer = graphene.Field(AnswersInput)
 
 
 class CreateQuestionnaire(relay.ClientIDMutation):
@@ -113,7 +124,37 @@ class CreateQuestionnaireUserAnswers(relay.ClientIDMutation):
         return CreateQuestionnaireUserAnswers(questionnaire_user_answers=questionnaire_user_answers)
 
 
+class CreateUserAnswers(relay.ClientIDMutation):
+    """
+        Create a User Answers for a Questionnaire
+    """
+    class Input:
+        questionnaire_user_answers_id = graphene.String(required=True)
+        questions = graphene.List(QuestionAnswersInput, required=True)
+
+    questionnaire_user_answers = graphene.Field(QuestionnaireUserAnswersNode)
+
+    @staticmethod
+    @login_required
+    @transaction.atomic
+    def mutate_and_get_payload(root, info, questionnaire_user_answers_id, questions):
+        questionnaire_user_answers = QuestionnaireUserAnswers.objects.get(
+            id=from_global_id(questionnaire_user_answers_id)[1]
+        )
+        questions_data = [
+            {'question_id': from_global_id(question['id'])[1], 
+             "choice": question['answer'].get('choice'), 
+             "free_text": question['answer'].get('free_text')} for question in questions
+        ]
+        answers = Answers.objects.bulk_create([Answers(**question) for question in questions_data])
+        questionnaire_user_answers.answers.set(answers)
+        questionnaire_user_answers.progress = QuestionnaireProgressChoices.COMPLETED
+        questionnaire_user_answers.save()
+        return CreateUserAnswers(questionnaire_user_answers=None)
+
+
 class QuizMutation(graphene.ObjectType):
     create_questionnaire = CreateQuestionnaire.Field()
     update_questionnaire = UpdateQuestionnaire.Field()
     create_questionnaire_user_answers = CreateQuestionnaireUserAnswers.Field()
+    CreateUserAnswers = CreateUserAnswers.Field()
