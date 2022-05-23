@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+
+command="$1"
+shift 1
+
+case ${command} in
+    up)
+        docker-compose up -d "$@"
+        ;;
+    up-and-build)
+        docker-compose up --build -d "$@"
+        ;;
+    down)
+        docker-compose down "$@"
+        ;;
+    destroy)
+        docker-compose down -v --rmi all "$@"
+        ;;
+    start)
+        docker-compose build
+        docker-compose run --rm -p "8000:8000" web bash
+        ;;
+    stop)
+        docker-compose stop "$@"
+        ;;
+    restart)
+        docker-compose stop "$@"
+        docker-compose start "$@"
+        ;;
+    exec)
+        docker-compose exec "$@"
+        ;;
+    logs)
+        docker-compose logs "$@"
+        ;;
+    ps)
+        docker-compose ps "$@"
+        ;;
+    top)
+        docker-compose top "$@"
+        ;;
+    ssh)
+        docker-compose exec "$1" /bin/bash
+        ;;
+    shell)
+        docker-compose exec "$1" python manage.py shell
+        ;;
+    start-app)
+        pipenv run python manage.py runserver_plus 0.0.0.0:8000
+        ;;
+    migrate)
+        pipenv run python manage.py makemigrations
+        pipenv run python manage.py migrate
+        ;;
+    backmigrate)
+        pipenv run python manage.py migrate "$1" "$2"
+        ;;
+    manage)
+        pipenv run python manage.py "$@"
+        ;;
+    makemigrations)
+        docker-compose exec "$1" python manage.py makemigrations
+        ;;
+    createsuperuser)
+        pipenv run python manage.py createsuperuser
+        ;;
+    collectstatic)
+        docker-compose exec "$1" python manage.py collectstatic
+        ;;
+    *)
+        echo "${command} is not a valid command. These are the valid commands:"
+        echo ""
+column -t -s ";" << COMMANDS
+Command;Manually;Explanation
+./dc up;docker-compose up -d;Builds, creates and starts the services in the background.
+./dc up-and-build;docker-compose up --build -d;Forces the containers to be rebuilt, then brings them up.
+./dc down;docker-compose down;Stops the running containers, and removes the network being used by them.
+./dc destroy;docker-compose down -v --rmi all;Same as down, but it also deletes the images and volumes (storage), i.e any databases.
+./dc start;docker-compose start;Starts existing containers (does not build). To be used after stop.
+./dc stop;docker-compose stop;Stops running containers without removing. Can be started again with start.
+./dc restart; docker-compose stop && docker-compose start; Restarts running containers.
+./dc exec <service> <command>;docker-compose exec <service> <command>;Execute a command on a running service.
+./dc logs;docker-compose logs;By default, view all logs from all the containers. Pass the --help option for more info.
+./dc ps;docker-compose ps;Lists containers, their status, what ports are mapped and what entrypoint was used
+./dc top;docker-compose top;Lists all of the processes running in all the containers
+./dc ssh <service>;docker-compose exec <service> /bin/bash;Connect to the specified service (e.g. django) and get a bash shell
+COMMANDS
+        exit 1
+esac

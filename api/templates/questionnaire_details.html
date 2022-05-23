@@ -1,0 +1,40 @@
+{% load bootstrap5 %}
+{% load static %}
+
+<h1 class="display-2;" style="text-align: center">{{ questionnaire.title }}</h1>
+
+
+{% for question in questionnaire.questions.all %}
+    <div class="card text-center">
+      <div class="card-header">
+          {{ question.seq_no }}#: {{ question.title }}
+      </div>
+      <div class="card-body">
+            {{ question.type }}
+          {% if question.type == 0 %}
+            <input class="form-control" id="{{ question.id }}" type="text" placeholder="Type your answer here">
+          {% elif question.type == 1 %}
+            <textarea class="form-control" id="{{ question.id }}" rows="3"></textarea>
+          {% elif question.type == 2 %}
+            {% for option in question.choice_options %}
+                <input class="form-check-input" type="checkbox" value="" id="{{ question.id }}">
+                <label class="form-check-label" for="{{ question.id }}">
+                    {{ option }}
+                </label>
+            {% endfor %}
+          {% elif question.type == 3 %}
+            {% for option in question.choice_options %}
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="{{ question.id }}">
+                <label class="form-check-label" for="{{ question.id }}">
+                    {{ option }}
+                </label>
+            {% endfor %}
+          {% endif %}
+
+      </div>
+    </div>
+{% endfor %}
+
+
+
+</div>
