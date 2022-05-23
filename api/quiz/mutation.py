@@ -5,8 +5,8 @@ from graphql import GraphQLError
 from graphql_jwt.decorators import login_required
 from graphql_relay import from_global_id
 
-from api.quiz.models import Questionnaire, Questions
-from api.quiz.schema import QuestionnaireNode
+from api.quiz.models import Questionnaire, Questions, QuestionnaireUserAnswers
+from api.quiz.schema import QuestionnaireNode, QuestionnaireUserAnswersNode
 
 
 class CreateQuestionsInput(graphene.InputObjectType):
@@ -95,6 +95,25 @@ class UpdateQuestionnaire(relay.ClientIDMutation):
             raise GraphQLError('Question object not found')
 
 
+class CreateQuestionnaireUserAnswers(relay.ClientIDMutation):
+    """
+        Create a QuestionnaireUserAnswers
+    """
+    class Input:
+        questionnaire_id = graphene.String(required=True)
+
+    questionnaire_user_answers = graphene.Field(QuestionnaireUserAnswersNode)
+
+    @staticmethod
+    @login_required
+    @transaction.atomic
+    def mutate_and_get_payload(root, info, questionnaire_id):
+        questionnaire = Questionnaire.objects.get(id=from_global_id(questionnaire_id)[1])
+        questionnaire_user_answers = QuestionnaireUserAnswers.objects.create(questionnaire=questionnaire)
+        return CreateQuestionnaireUserAnswers(questionnaire_user_answers=questionnaire_user_answers)
+
+
 class QuizMutation(graphene.ObjectType):
     create_questionnaire = CreateQuestionnaire.Field()
     update_questionnaire = UpdateQuestionnaire.Field()
+    create_questionnaire_user_answers = CreateQuestionnaireUserAnswers.Field()

@@ -33,10 +33,6 @@ class Questionnaire(TimestampedAbstractModel):
     def __str__(self):
         return self.title
 
-    @property
-    def sharable_link(self):
-        return settings.API_BASE_URL + reverse('quiz:questionnaire', kwargs={"pk": self.id})
-
 
 class Questions(TimestampedAbstractModel):
     """
@@ -99,7 +95,7 @@ class QuestionnaireUserAnswers(TimestampedAbstractModel):
     questionnaire = models.ForeignKey(Questionnaire, related_name='questionnaire_user_answers',
                                       on_delete=models.CASCADE)
     answers = models.ManyToManyField(Answers, related_name='questionnaire_user_answers', blank=True)
-    answered_by = models.EmailField(max_length=255)
+    answered_by = models.EmailField(max_length=255, blank=True, null=True)
 
     # filters
     filter = QuestionnaireUserAnswersQueryManager.as_manager()
@@ -110,3 +106,7 @@ class QuestionnaireUserAnswers(TimestampedAbstractModel):
 
     def __str__(self):
         return self.questionnaire.title
+
+    @property
+    def sharable_link(self):
+        return settings.API_BASE_URL + reverse('quiz:questionnaire-user-answers', kwargs={"pk": self.id})

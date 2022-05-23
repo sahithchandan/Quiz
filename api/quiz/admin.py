@@ -28,6 +28,6 @@ class QuestionnaireUserAnswersAdmin(admin.ModelAdmin):
 
     @admin.display(description="Questionnaire", ordering='questionnaire__title')
     def get_questionnaire_title(self, obj):
-        url = reverse("admin:api_questionnaire_change", args=[obj.questionnaire.id])
+        url = reverse("admin:quiz_questionnaire_change", args=[obj.questionnaire.id])
         link = '<a href="%s">%s</a>' % (url, obj.questionnaire.title)
         return mark_safe(link)

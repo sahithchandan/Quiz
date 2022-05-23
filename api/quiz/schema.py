@@ -2,11 +2,10 @@ import graphene
 from graphene import relay
 from graphene_django import DjangoObjectType
 
-from api.quiz.models import Questionnaire, Questions
+from api.quiz.models import Questionnaire, Questions, QuestionnaireUserAnswers
 
 
 class QuestionnaireNode(DjangoObjectType):
-    sharable_link = graphene.String()
 
     class Meta:
         model = Questionnaire
@@ -31,4 +30,14 @@ class QuestionsNode(DjangoObjectType):
             'type': ['exact'],
             'questionnaire__title': ['exact', 'icontains', 'istartswith']
         }
+        interfaces = (relay.Node,)
+
+
+class QuestionnaireUserAnswersNode(DjangoObjectType):
+    sharable_link = graphene.String()
+
+    class Meta:
+        model = QuestionnaireUserAnswers
+        exclude = ['is_active']
+        convert_choices_to_enum = False
         interfaces = (relay.Node,)
