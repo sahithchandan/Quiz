@@ -1,4 +1,5 @@
 from api.managers import BaseQueryManager
+from api.quiz.choices import QuestionnaireProgressChoices
 
 
 class QuestionnaireQueryManager(BaseQueryManager):
@@ -24,4 +25,13 @@ class AnswersQueryManager(BaseQueryManager):
 
 class QuestionnaireUserAnswersQueryManager(BaseQueryManager):
 
-    pass
+    def with_select_related(self, objects='questionnaire'):
+        queryset = self
+        if not isinstance(objects, list):
+            objects = [objects]
+        if 'questionnaire' in objects:
+            queryset = queryset.select_related('questionnaire')
+        return queryset
+
+    def not_started(self):
+        return self.filter(progress=QuestionnaireProgressChoices.NOT_STARTED)

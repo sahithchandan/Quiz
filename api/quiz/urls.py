@@ -1,11 +1,15 @@
 from django.urls import path
 
-from api.quiz.views import QuestionnaireRetrieveView
+from api.quiz.views import QuestionnaireUserAnswersRetrieveView
 
 app_name = "quiz"
 
 
 urlpatterns = [
-    # Questionnaire
-    path("questionnaire/<uuid:pk>/", QuestionnaireRetrieveView.as_view(), name="questionnaire"),
+    # Questionnaire Answers
+    path(
+        "questionnaire_user_answers/<uuid:pk>/",
+        QuestionnaireUserAnswersRetrieveView.as_view(),
+        name="questionnaire-user-answers"
+    ),
 ]
