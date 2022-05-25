@@ -5,8 +5,10 @@ from graphql import GraphQLError
 from graphql_jwt.decorators import login_required
 from graphql_relay import from_global_id
 
-from api.quiz.models import Questionnaire, Questions, QuestionnaireUserAnswers
-from api.quiz.schema import QuestionnaireNode, QuestionnaireUserAnswersNode
+from api.utils import get_object, filter_objects, generate_pin
+from api.quiz.models import Questionnaire, Questions, QuestionnaireResponses, Answers
+from api.quiz.schema import QuestionnaireNode, QuestionnaireResponsesNode
+from api.quiz.choices import QuestionnaireProgressChoices, QuestionTypeChoices
 
 
 class CreateQuestionsInput(graphene.InputObjectType):
@@ -18,6 +20,18 @@ class CreateQuestionsInput(graphene.InputObjectType):
 
 class UpdateQuestionsInput(CreateQuestionsInput):
     id = graphene.String()
+    title = graphene.String()
+    type = graphene.Int()
+
+
+class AnswersInput(graphene.InputObjectType):
+    choice = graphene.List(graphene.String)
+    free_text = graphene.String()
+
+
+class QuestionAnswersInput(graphene.InputObjectType):
+    id = graphene.String()
+    answer = graphene.Field(AnswersInput)
 
 
 class CreateQuestionnaire(relay.ClientIDMutation):
@@ -28,20 +42,27 @@ class CreateQuestionnaire(relay.ClientIDMutation):
         title = graphene.String(required=True)
         questions = graphene.List(CreateQuestionsInput)
 
+    @staticmethod
+    def validate_questions(questions_data):
+        for question_data in questions_data:
+            if question_data['type'] not in QuestionTypeChoices.values:
+                raise GraphQLError('Invalid question type')
+
     questionnaire = graphene.Field(QuestionnaireNode)
 
-    @staticmethod
+    @classmethod
     @login_required
     @transaction.atomic
-    def mutate_and_get_payload(root, info, title, questions):
-        questionnaire = Questionnaire.objects.create(title=title, created_by=info.context.user)
+    def mutate_and_get_payload(cls, root, info, **data):
+        cls.validate_questions(data['questions'])
+        questionnaire = Questionnaire.objects.create(title=data['title'], created_by=info.context.user)
 
         # bulk create questions
         questions_list = [
-            Questions(**question_data, questionnaire=questionnaire) for question_data in questions
+            Questions(**question_data, questionnaire=questionnaire) for question_data in data['questions']
         ]
         Questions.objects.bulk_create(questions_list)
-        return CreateQuestionnaire(questionnaire=questionnaire)
+        return cls(questionnaire=questionnaire)
 
 
 class UpdateQuestionnaire(relay.ClientIDMutation):
@@ -49,25 +70,26 @@ class UpdateQuestionnaire(relay.ClientIDMutation):
         Update a Questionnaire
     """
     class Input:
-        id = graphene.ID(required=True)
+        id = graphene.String(required=True)
         questions = graphene.List(UpdateQuestionsInput, required=True)
         title = graphene.String()
 
     questionnaire = graphene.Field(QuestionnaireNode)
 
-    @staticmethod
+    @classmethod
     @login_required
     @transaction.atomic
-    def mutate_and_get_payload(root, info, id, questions, title=None):
+    def mutate_and_get_payload(cls, root, info, **data):
         try:
-            questionnaire = Questionnaire.objects.get(id=from_global_id(id)[1])
-            if title is not None:
-                questionnaire.title = title
+            questionnaire = get_object(Questionnaire, data['id'])
+            if data.get('title') is not None:
+                questionnaire.title = data['title']
                 questionnaire.save()
 
             existing_questions_ids = []
             new_questions_list = []
-            for question_data in questions:
+            for question_data in data['questions']:
+
                 if 'id' in question_data:
                     # update existing question
                     question_id = from_global_id(question_data.pop('id'))[1]
@@ -86,7 +108,7 @@ class UpdateQuestionnaire(relay.ClientIDMutation):
                 # bulk create new questions if present in the data
                 Questions.objects.bulk_create(new_questions_list)
 
-            return UpdateQuestionnaire(questionnaire=questionnaire)
+            return cls(questionnaire=questionnaire)
 
         except Questionnaire.DoesNotExist:
             raise GraphQLError('Questionnaire object not found')
@@ -95,25 +117,92 @@ class UpdateQuestionnaire(relay.ClientIDMutation):
             raise GraphQLError('Question object not found')
 
 
-class CreateQuestionnaireUserAnswers(relay.ClientIDMutation):
+class CreateQuestionnaireResponses(relay.ClientIDMutation):
     """
-        Create a QuestionnaireUserAnswers
+        Create a QuestionnaireResponses for sharing a Questionnaire
     """
     class Input:
         questionnaire_id = graphene.String(required=True)
 
-    questionnaire_user_answers = graphene.Field(QuestionnaireUserAnswersNode)
+    questionnaire_response = graphene.Field(QuestionnaireResponsesNode)
 
-    @staticmethod
+    @classmethod
     @login_required
     @transaction.atomic
-    def mutate_and_get_payload(root, info, questionnaire_id):
-        questionnaire = Questionnaire.objects.get(id=from_global_id(questionnaire_id)[1])
-        questionnaire_user_answers = QuestionnaireUserAnswers.objects.create(questionnaire=questionnaire)
-        return CreateQuestionnaireUserAnswers(questionnaire_user_answers=questionnaire_user_answers)
+    def mutate_and_get_payload(cls, root, info, **data):
+        questionnaire = get_object(Questionnaire, data['questionnaire_id'])
+        if not questionnaire:
+            raise GraphQLError("Questionnaire not found")
+        questionnaire_response = QuestionnaireResponses.objects.create(pin=generate_pin(),
+                                                                       questionnaire=questionnaire)
+        return CreateQuestionnaireResponses(questionnaire_response=questionnaire_response)
+
+
+class CreateUserAnswers(relay.ClientIDMutation):
+    """
+        Create a User Answers for a Questionnaire
+    """
+    class Input:
+        questionnaire_user_answers_id = graphene.String(required=True)
+        questions = graphene.List(QuestionAnswersInput, required=True)
+        email = graphene.String()
+
+    questionnaire_user_answers = graphene.Field(QuestionnaireResponsesNode)
+
+    @classmethod
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **data):
+        questionnaire_user_answers = get_object(QuestionnaireResponses, data['questionnaire_user_answers_id'])
+        if questionnaire_user_answers.progress == QuestionnaireProgressChoices.COMPLETED:
+            raise GraphQLError('You have already submitted the questionnaire')
+
+        # answers data for bulk creating the Answers
+        answers_data = [
+            {'question_id': from_global_id(question['id'])[1],
+             "choice": question['answer'].get('choice'),
+             "free_text": question['answer'].get('free_text')} for question in data['questions']
+        ]
+        answers = Answers.objects.bulk_create([Answers(**answer_data) for answer_data in answers_data])
+
+        # set answers for the unique questionnaire link
+        questionnaire_user_answers.answers.set(answers)
+        questionnaire_user_answers.progress = QuestionnaireProgressChoices.COMPLETED
+        questionnaire_user_answers.answered_by = data.get('email')
+        questionnaire_user_answers.save()
+        return cls(questionnaire_user_answers=None)
+
+
+class DeleteQuestionnaire(relay.ClientIDMutation):
+    """
+        Deleting a Questionnaire
+    """
+    class Input:
+        questionnaire_id = graphene.String(required=True)
+
+    questionnaire = graphene.Field(QuestionnaireNode)
+
+    @classmethod
+    @login_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **data):
+        questionnaire = filter_objects(Questionnaire, data['questionnaire_id']).by_user(info.context.user).first()
+        if not questionnaire:
+            raise GraphQLError('You do not have permission to delete the questionnaire')
+
+        # delete questionnaire
+        questionnaire.delete()
+        return cls(questionnaire=None)
 
 
 class QuizMutation(graphene.ObjectType):
+
+    # questionnaire
     create_questionnaire = CreateQuestionnaire.Field()
     update_questionnaire = UpdateQuestionnaire.Field()
-    create_questionnaire_user_answers = CreateQuestionnaireUserAnswers.Field()
+    delete_questionnaire = DeleteQuestionnaire.Field()
+
+    # referral link
+    create_questionnaire_response = CreateQuestionnaireResponses.Field()
+
+    # answers
+    create_user_answers = CreateUserAnswers.Field()

@@ -12,6 +12,9 @@ class QuestionnaireQueryManager(BaseQueryManager):
             queryset = queryset.prefetch_related('questions')
         return queryset
 
+    def by_user(self, user):
+        return self.filter(created_by=user)
+
 
 class QuestionsQueryManager(BaseQueryManager):
 
@@ -23,7 +26,7 @@ class AnswersQueryManager(BaseQueryManager):
     pass
 
 
-class QuestionnaireUserAnswersQueryManager(BaseQueryManager):
+class QuestionnaireResponsesQueryManager(BaseQueryManager):
 
     def with_select_related(self, objects='questionnaire'):
         queryset = self
@@ -35,3 +38,6 @@ class QuestionnaireUserAnswersQueryManager(BaseQueryManager):
 
     def not_started(self):
         return self.filter(progress=QuestionnaireProgressChoices.NOT_STARTED)
+
+    def with_pin(self, pin):
+        return self.filter(pin=pin)

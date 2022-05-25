@@ -21,8 +21,8 @@ class QuestionsAdmin(admin.ModelAdmin):
     list_filter = ["type"]
 
 
-@admin.register(models.QuestionnaireUserAnswers)
-class QuestionnaireUserAnswersAdmin(admin.ModelAdmin):
+@admin.register(models.QuestionnaireResponses)
+class QuestionnaireResponsesAdmin(admin.ModelAdmin):
     list_display = ["id", "get_questionnaire_title", "progress"]
     list_filter = ["progress"]
 
@@ -30,4 +30,15 @@ class QuestionnaireUserAnswersAdmin(admin.ModelAdmin):
     def get_questionnaire_title(self, obj):
         url = reverse("admin:quiz_questionnaire_change", args=[obj.questionnaire.id])
         link = '<a href="%s">%s</a>' % (url, obj.questionnaire.title)
+        return mark_safe(link)
+
+
+@admin.register(models.Answers)
+class AnswersAdmin(admin.ModelAdmin):
+    list_display = ["id", "get_question_title", "choice", "free_text"]
+
+    @admin.display(description="Question", ordering='question__title')
+    def get_question_title(self, obj):
+        url = reverse("admin:quiz_questions_change", args=[obj.question.id])
+        link = '<a href="%s">%s</a>' % (url, obj.question.title)
         return mark_safe(link)

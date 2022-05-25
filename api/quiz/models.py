@@ -9,7 +9,7 @@ from api.quiz.managers import (
     QuestionnaireQueryManager,
     QuestionsQueryManager,
     AnswersQueryManager,
-    QuestionnaireUserAnswersQueryManager
+    QuestionnaireResponsesQueryManager
 )
 from api.users.models import User
 
@@ -29,6 +29,9 @@ class Questionnaire(TimestampedAbstractModel):
     class Meta:
         verbose_name_plural = "Questionnaire"
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['title'])
+        ]
 
     def __str__(self):
         return self.title
@@ -84,29 +87,35 @@ class Answers(TimestampedAbstractModel):
         return self.question.title
 
 
-class QuestionnaireUserAnswers(TimestampedAbstractModel):
+class QuestionnaireResponses(TimestampedAbstractModel):
     """
-        Model representing User Answers for a Questionnaire
+        Model representing responses of a Questionnaire
     """
+    pin = models.CharField(unique=True, max_length=6)
     progress = models.PositiveSmallIntegerField(choices=QuestionnaireProgressChoices.choices,
                                                 default=QuestionnaireProgressChoices.NOT_STARTED)
+    answered_by = models.EmailField(max_length=255, blank=True, null=True)
 
     # relations
     questionnaire = models.ForeignKey(Questionnaire, related_name='questionnaire_user_answers',
                                       on_delete=models.CASCADE)
     answers = models.ManyToManyField(Answers, related_name='questionnaire_user_answers', blank=True)
-    answered_by = models.EmailField(max_length=255, blank=True, null=True)
 
     # filters
-    filter = QuestionnaireUserAnswersQueryManager.as_manager()
+    filter = QuestionnaireResponsesQueryManager.as_manager()
 
     class Meta:
-        verbose_name_plural = "Questionnaire User Answers"
+        verbose_name_plural = "Questionnaire Responses"
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['pin'])
+        ]
 
     def __str__(self):
         return self.questionnaire.title
 
     @property
     def sharable_link(self):
-        return settings.API_BASE_URL + reverse('quiz:questionnaire-user-answers', kwargs={"pk": self.id})
+        # can use a url shortener here
+        url = reverse('quiz:questionnaire-responses', kwargs={"pin": self.pin})
+        return settings.API_BASE_URL + url
