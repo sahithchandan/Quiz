@@ -22,4 +22,6 @@ class QuestionnaireResponsesRetrieveView(generics.RetrieveAPIView):
         instance.progress = QuestionnaireProgressChoices.IN_PROGRESS
         instance.save()
         serializer = self.get_serializer(instance)
+
+        # redirect to a web url with necessary data
         return Response(serializer.data)

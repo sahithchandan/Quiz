@@ -13,14 +13,17 @@ class QuestionnaireResponseTestUtils(object):
         return reverse('quiz:questionnaire-responses', kwargs={"pin": pin})
 
 
-class TestCategory(BaseAPITestCase):
+class TestQuestionnaireResponse(BaseAPITestCase):
+    """
+        Test case for fetching Questionnaire Response
+    """
 
     def setUp(self):
         super().setUp()
         self.questionnaire_response = QuestionnaireResponsesFactory.create(
             progress=QuestionnaireProgressChoices.NOT_STARTED)
 
-    def test_category_list(self):
+    def test_questionnaire_response(self):
         response = self.user_client.get(
             QuestionnaireResponseTestUtils.get_questionnaire_response_url(self.questionnaire_response.pin)
         )
