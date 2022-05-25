@@ -45,7 +45,7 @@ case ${command} in
     shell)
         docker-compose exec "$1" python manage.py shell
         ;;
-    start-app)
+    startapp)
         pipenv run python manage.py runserver_plus 0.0.0.0:8000
         ;;
     migrate)
@@ -67,6 +67,25 @@ case ${command} in
     collectstatic)
         docker-compose exec "$1" python manage.py collectstatic
         ;;
+    seed)
+        find fixtures -type f -exec pipenv run python manage.py loaddata "{}" \;
+        ;;
+    wait-for-postgres)
+        set -e
+
+        host="$1"
+        shift
+        cmd="$@"
+
+        until PGPASSWORD=$DATABASE_PASSWORD psql -h "$host" -U "postgres" -c '\q'; do
+          >&2 echo "Postgres is unavailable - sleeping"
+          sleep 1
+        done
+
+        >&2 echo "Postgres is up - executing command"
+        echo $cmd
+        exec $cmd
+        ;;
     *)
         echo "${command} is not a valid command. These are the valid commands:"
         echo ""
@@ -78,12 +97,21 @@ Command;Manually;Explanation
 ./dc destroy;docker-compose down -v --rmi all;Same as down, but it also deletes the images and volumes (storage), i.e any databases.
 ./dc start;docker-compose start;Starts existing containers (does not build). To be used after stop.
 ./dc stop;docker-compose stop;Stops running containers without removing. Can be started again with start.
+./dc startapp;python manage.py runserver_plus;Runs the server
 ./dc restart; docker-compose stop && docker-compose start; Restarts running containers.
 ./dc exec <service> <command>;docker-compose exec <service> <command>;Execute a command on a running service.
 ./dc logs;docker-compose logs;By default, view all logs from all the containers. Pass the --help option for more info.
 ./dc ps;docker-compose ps;Lists containers, their status, what ports are mapped and what entrypoint was used
 ./dc top;docker-compose top;Lists all of the processes running in all the containers
 ./dc ssh <service>;docker-compose exec <service> /bin/bash;Connect to the specified service (e.g. django) and get a bash shell
+./dc shell;python manage.py shell;Project shell
+./dc migrate;python manage.py makemigrations migrate;Generates migration files and run migrate
+./dc backmigrate;python manage.py migrate <app name> <migration number>;Backmigrates to a specific migration
+./dc createsuperuser;python manage.py createsuperuser;Create a superuser
+./dc collectstatic;python manage.py collectstatic;Copies over static files
+./dc seed;python manage.py loaddata;Loads fixtures to the db
+./dc wait-for-postgres;;Loads fixtures to the db
+
 COMMANDS
         exit 1
 esac

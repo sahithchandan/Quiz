@@ -9,7 +9,7 @@ from api.quiz.schema import QuestionnaireNode, QuestionsNode
 
 class QuizQuery(graphene.ObjectType):
     # questionnaires
-    all_questionnaires = DjangoFilterConnectionField(QuestionnaireNode)
+    all_questionnaires = DjangoFilterConnectionField(QuestionnaireNode, by_me=graphene.Boolean())
     questionnaire = relay.Node.Field(QuestionnaireNode)
 
     # questions
@@ -18,6 +18,9 @@ class QuizQuery(graphene.ObjectType):
     @staticmethod
     @login_required
     def resolve_all_questionnaires(root, info, **kwargs):
+        by_me = kwargs.get('by_me', False)
+        if by_me:
+            return Questionnaire.filter.by_user(info.context.user)
         return Questionnaire.objects.all()
 
     @staticmethod

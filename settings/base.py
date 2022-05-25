@@ -163,3 +163,5 @@ API_HOST = os.environ.get('API_HOST', '0.0.0.0:8000')
 API_BASE_URL = 'https://{}'.format(API_HOST)
 
 ALLOWED_HOSTS = [API_HOST]
+
+SHARABLE_PIN_BYTES_LENGTH = 3

@@ -45,4 +45,4 @@ RUN pipenv install
 
 COPY --chown=docker:docker . /app
 
-CMD ./scripts/start_app.sh
+CMD ./dc start-app

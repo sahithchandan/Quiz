@@ -21,8 +21,8 @@ class QuestionsAdmin(admin.ModelAdmin):
     list_filter = ["type"]
 
 
-@admin.register(models.QuestionnaireUserAnswers)
-class QuestionnaireUserAnswersAdmin(admin.ModelAdmin):
+@admin.register(models.QuestionnaireResponses)
+class QuestionnaireResponsesAdmin(admin.ModelAdmin):
     list_display = ["id", "get_questionnaire_title", "progress"]
     list_filter = ["progress"]
 
@@ -34,7 +34,7 @@ class QuestionnaireUserAnswersAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.Answers)
-class QuestionsAdmin(admin.ModelAdmin):
+class AnswersAdmin(admin.ModelAdmin):
     list_display = ["id", "get_question_title", "choice", "free_text"]
 
     @admin.display(description="Question", ordering='question__title')

@@ -23,6 +23,8 @@ django-filter = "*"
 djangorestframework = "*"
 flake8 = "*"
 pylint = "*"
+factory-boy = "*"
+faker = "*"
 
 [requires]
 python_version = "3.8"
