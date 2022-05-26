@@ -3,6 +3,16 @@
 A simple quiz application where uses can create questionnaires with questions. The user can then share the questionnaire
 to public after which they can look at the responses. 
 
+### App flow
+- Users register and logs in to the application. 
+- User can then create, edit or delete questionnaires with questions. 
+- User can choose questions to be either one of the following: Short answer, Paragraph, Checkboxes, Multiple choices or Dropdown.      
+- User can create a public sharable link for the questionnaire. A unique link is generated each time when shared which is unique for every user.  
+- Public can fetch the questionnaire via the shared link and provide answers to the questions. 
+- Public can only submit the questionnaire once. 
+- User can then view the answers for the shared questionnaire submitted by the public.
+
+
 ### Prerequisites
 
 Before starting on this project you should have:
@@ -33,8 +43,11 @@ Before starting on this project you should have:
 
 ### Tests
 
-To run tests
+To run all tests
 `./dc manage test`
+
+To run a specific test case
+`./dc manage test api.quiz.tests.test_questionnaire_responses_list.QuestionnaireResponseAnswersListGraphQLTest`
 
 
 ### Before committing your code, check for the following
@@ -89,6 +102,12 @@ Got hold of how to write api's and started concentrating on the logic more. Got 
 Started writing test cases for the api's. Found it fairly simple. Used GraphQLTestCase.
 
 
+#### 24th May 2022
+I realised there was no way a User can share other user's questionnaire if he liked it. Added create_by field to QuestionnaireResponses model  
+
+
 ### Future scope
 - Can register users who are answering and assign the user to QuestionnaireResponses model
 - Integrate email forward to share questionnaire via an email
+- Save user progress
+- User can create copies of questionnaire and edit and share it

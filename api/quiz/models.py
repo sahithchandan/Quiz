@@ -71,7 +71,7 @@ class Answers(TimestampedAbstractModel):
     """
     # choices for checkboxes, multiple choices and dropdown questions
     choice = ArrayField(models.CharField(max_length=255), null=True, blank=True)
-    free_text = models.TextField(blank=True)
+    free_text = models.TextField(null=True, blank=True)
 
     # relations
     question = models.ForeignKey(Questions, related_name='answers', on_delete=models.CASCADE)
@@ -97,9 +97,12 @@ class QuestionnaireResponses(TimestampedAbstractModel):
     answered_by = models.EmailField(max_length=255, blank=True, null=True)
 
     # relations
-    questionnaire = models.ForeignKey(Questionnaire, related_name='questionnaire_user_answers',
+    questionnaire = models.ForeignKey(Questionnaire, related_name='questionnaire_responses',
                                       on_delete=models.CASCADE)
-    answers = models.ManyToManyField(Answers, related_name='questionnaire_user_answers', blank=True)
+    created_by = models.ForeignKey(User, related_name='questionnaire_responses',
+                                   on_delete=models.SET_NULL, blank=True, null=True,
+                                   help_text='User who chooses to share the questionnaire')
+    answers = models.ManyToManyField(Answers, related_name='questionnaire_responses', blank=True)
 
     # filters
     filter = QuestionnaireResponsesQueryManager.as_manager()

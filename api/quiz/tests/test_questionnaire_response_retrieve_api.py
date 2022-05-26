@@ -15,7 +15,7 @@ class QuestionnaireResponseTestUtils(object):
 
 class TestQuestionnaireResponse(BaseAPITestCase):
     """
-        Test case for fetching Questionnaire Response
+        Test case for fetching Questionnaire Response Details from shared link
     """
 
     def setUp(self):

@@ -2,7 +2,7 @@ import graphene
 from graphene import relay
 from graphene_django import DjangoObjectType
 
-from api.quiz.models import Questionnaire, Questions, QuestionnaireResponses
+from api.quiz.models import Questionnaire, Questions, QuestionnaireResponses, Answers
 
 
 class CountableConnectionBase(relay.Connection):
@@ -61,14 +61,42 @@ class QuestionsNode(DjangoObjectType):
         connection_class = CountableConnectionBase
 
 
+class AnswersNode(DjangoObjectType):
+    """
+        Answers Object Node
+    """
+    class Meta:
+        model = Answers
+        exclude = ['is_active']
+        filter_fields = filter_fields = {
+            'id': ['exact']
+        }
+        interfaces = (relay.Node,)
+        connection_class = CountableConnectionBase
+
+
 class QuestionnaireResponsesNode(DjangoObjectType):
     """
         QuestionnaireResponses Object Node
     """
     sharable_link = graphene.String()
+    total_questions = graphene.Int()
+    total_answers = graphene.Int()
 
     class Meta:
         model = QuestionnaireResponses
         exclude = ['is_active']
         convert_choices_to_enum = False
+        filter_fields = filter_fields = {
+            'progress': ['exact'],
+            'answered_by': ['exact', 'icontains', 'istartswith'],
+            'questionnaire__title': ['exact', 'icontains', 'istartswith']
+        }
         interfaces = (relay.Node,)
+        connection_class = CountableConnectionBase
+
+    def resolve_total_questions(self, info):
+        return self.questionnaire.questions.count()
+
+    def resolve_total_answers(self, info):
+        return self.answers.count()

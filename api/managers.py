@@ -19,4 +19,4 @@ class BaseQueryManager(models.QuerySet):
     def with_ids(self, ids):
         if not isinstance(ids, list):
             ids = [ids]
-        return self.filter(id__in=ids)
+        return self.filter(pk__in=ids)

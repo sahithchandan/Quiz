@@ -134,26 +134,27 @@ class CreateQuestionnaireResponses(relay.ClientIDMutation):
         if not questionnaire:
             raise GraphQLError("Questionnaire not found")
         questionnaire_response = QuestionnaireResponses.objects.create(pin=generate_pin(),
-                                                                       questionnaire=questionnaire)
+                                                                       questionnaire=questionnaire,
+                                                                       created_by=info.context.user)
         return CreateQuestionnaireResponses(questionnaire_response=questionnaire_response)
 
 
-class CreateUserAnswers(relay.ClientIDMutation):
+class CreateQuestionnaireResponseAnswers(relay.ClientIDMutation):
     """
-        Create a User Answers for a Questionnaire
+        Create a User response for a Questionnaire
     """
     class Input:
-        questionnaire_user_answers_id = graphene.String(required=True)
+        questionnaire_response_id = graphene.String(required=True)
         questions = graphene.List(QuestionAnswersInput, required=True)
         email = graphene.String()
 
-    questionnaire_user_answers = graphene.Field(QuestionnaireResponsesNode)
+    questionnaire_response = graphene.Field(QuestionnaireResponsesNode)
 
     @classmethod
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **data):
-        questionnaire_user_answers = get_object(QuestionnaireResponses, data['questionnaire_user_answers_id'])
-        if questionnaire_user_answers.progress == QuestionnaireProgressChoices.COMPLETED:
+        questionnaire_response = get_object(QuestionnaireResponses, data['questionnaire_response_id'])
+        if questionnaire_response.progress == QuestionnaireProgressChoices.COMPLETED:
             raise GraphQLError('You have already submitted the questionnaire')
 
         # answers data for bulk creating the Answers
@@ -165,11 +166,11 @@ class CreateUserAnswers(relay.ClientIDMutation):
         answers = Answers.objects.bulk_create([Answers(**answer_data) for answer_data in answers_data])
 
         # set answers for the unique questionnaire link
-        questionnaire_user_answers.answers.set(answers)
-        questionnaire_user_answers.progress = QuestionnaireProgressChoices.COMPLETED
-        questionnaire_user_answers.answered_by = data.get('email')
-        questionnaire_user_answers.save()
-        return cls(questionnaire_user_answers=None)
+        questionnaire_response.answers.set(answers)
+        questionnaire_response.progress = QuestionnaireProgressChoices.COMPLETED
+        questionnaire_response.answered_by = data.get('email')
+        questionnaire_response.save()
+        return cls(questionnaire_response=None)
 
 
 class DeleteQuestionnaire(relay.ClientIDMutation):
@@ -201,8 +202,8 @@ class QuizMutation(graphene.ObjectType):
     update_questionnaire = UpdateQuestionnaire.Field()
     delete_questionnaire = DeleteQuestionnaire.Field()
 
-    # referral link
+    # questionnaire response
     create_questionnaire_response = CreateQuestionnaireResponses.Field()
 
     # answers
-    create_user_answers = CreateUserAnswers.Field()
+    create_questionnaire_response_answers = CreateQuestionnaireResponseAnswers.Field()
