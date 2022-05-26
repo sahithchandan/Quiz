@@ -16,7 +16,8 @@ class SharableLinkCreateGraphQLTest(BaseGraphQLTestCase):
         super().setUp()
         self.questionnaire = QuestionnaireFactory.create()
 
-    def get_query(self):
+    @staticmethod
+    def get_query():
         return '''
             mutation createQuestionnaireResponse ($input: CreateQuestionnaireResponsesInput!) {
               createQuestionnaireResponse (input: $input){

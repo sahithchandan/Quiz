@@ -36,8 +36,21 @@ class QuestionnaireResponsesQueryManager(BaseQueryManager):
             queryset = queryset.select_related('questionnaire')
         return queryset
 
+    def with_prefetch_related(self, objects='answers'):
+        queryset = self
+        if not isinstance(objects, list):
+            objects = [objects]
+        if 'answers' in objects:
+            queryset = queryset.prefetch_related('answers')
+        if 'questions' in objects:
+            queryset = queryset.prefetch_related('answers__question')
+        return queryset
+
     def not_started(self):
         return self.filter(progress=QuestionnaireProgressChoices.NOT_STARTED)
 
     def with_pin(self, pin):
         return self.filter(pin=pin)
+
+    def by_user(self, user):
+        return self.filter(created_by=user)

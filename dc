@@ -59,13 +59,16 @@ case ${command} in
         pipenv run python manage.py "$@"
         ;;
     makemigrations)
-        docker-compose exec "$1" python manage.py makemigrations
+        pipenv run python manage.py makemigrations
         ;;
     createsuperuser)
         pipenv run python manage.py createsuperuser
         ;;
     collectstatic)
-        docker-compose exec "$1" python manage.py collectstatic
+        pipenv run python manage.py collectstatic
+        ;;
+    test)
+        pipenv run python manage.py test "$@"
         ;;
     seed)
         find fixtures -type f -exec pipenv run python manage.py loaddata "{}" \;
@@ -109,6 +112,7 @@ Command;Manually;Explanation
 ./dc backmigrate;python manage.py migrate <app name> <migration number>;Backmigrates to a specific migration
 ./dc createsuperuser;python manage.py createsuperuser;Create a superuser
 ./dc collectstatic;python manage.py collectstatic;Copies over static files
+./dc test;python manage.py test;Copies over static files
 ./dc seed;python manage.py loaddata;Loads fixtures to the db
 ./dc wait-for-postgres;;Loads fixtures to the db
 
