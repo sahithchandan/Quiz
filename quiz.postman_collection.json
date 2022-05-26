@@ -1,0 +1,1812 @@
+{
+	"info": {
+		"_postman_id": "dffadf52-f094-4d7c-8914-4e02768c7260",
+		"name": "Quiz App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17299"
+	},
+	"item": [
+		{
+			"name": "Post Answers",
+			"item": [
+				{
+					"name": "Submit Answers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createQuestionnaireResponseAnswers {\n              createQuestionnaireResponseAnswers (\n                  input: {\n                      questionnaireResponseId: \"UXVlc3Rpb25uYWlyZVJlc3BvbnNlc05vZGU6MjA4ZTNhNDctNTk2Yi00MzcxLWI0NDgtNTI2YjEyNGI2NmFm\",\n                      questions: [\n                        {\n                            id: \"UXVlc3Rpb25zTm9kZTplODQ0NzhjZC01N2NjLTRkZDgtOWM5MS0xMTk1NGZlODE1NDM=\",\n                            answer: {\n                                choice: [\n                                    \"a\"\n                                ]\n                            }\n                        },\n                        {\n                            id: \"UXVlc3Rpb25zTm9kZTowZjY5ZjRjNy02MmI0LTRmODEtYWFhNC02ZTdiODBmMmQyOTE=\",\n                            answer: {\n                                freeText: \"answer\"\n                            }\n                        }\n                      ]\n                  }\n                  ){\n                questionnaireResponse {\n                    id\n                }\n              }\n            }",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/graphql",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation createQuestionnaireResponseAnswers {\n              createQuestionnaireResponseAnswers (\n                  input: {\n                      questionnaireResponseId: \"UXVlc3Rpb25uYWlyZVJlc3BvbnNlc05vZGU6MjA4ZTNhNDctNTk2Yi00MzcxLWI0NDgtNTI2YjEyNGI2NmFm\",\n                      questions: [\n                        {\n                            id: \"UXVlc3Rpb25zTm9kZTplODQ0NzhjZC01N2NjLTRkZDgtOWM5MS0xMTk1NGZlODE1NDM=\",\n                            answer: {\n                                choice: [\n                                    \"a\"\n                                ]\n                            }\n                        },\n                        {\n                            id: \"UXVlc3Rpb25zTm9kZTowZjY5ZjRjNy02MmI0LTRmODEtYWFhNC02ZTdiODBmMmQyOTE=\",\n                            answer: {\n                                freeText: \"answer\"\n                            }\n                        }\n                      ]\n                  }\n                  ){\n                questionnaireResponse {\n                    id\n                }\n              }\n            }",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "78"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Thu, 25 May 2023 18:24:27 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 26 May 2022 18:24:27 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"createQuestionnaireResponseAnswers\": {\n            \"questionnaireResponse\": null\n        }\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Qestionnaire Responses",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createQuestionnaireResponse($questionnaire_id: ID = \"UXVlc3Rpb25uYWlyZU5vZGU6MzRiYTkzMzMtYmQ1Yi00M2UwLTgxMjktY2RhMWEyZjFkNTI5\") {\n  createQuestionnaireResponse (\n    input: {\n      questionnaireId: $questionnaire_id\n    }\n  ){\n    questionnaireResponse{\n      id,\n      sharableLink\n    }\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/graphql",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation createQuestionnaireResponse($questionnaire_id: ID = \"UXVlc3Rpb25uYWlyZU5vZGU6MzRiYTkzMzMtYmQ1Yi00M2UwLTgxMjktY2RhMWEyZjFkNTI5\") {\n  createQuestionnaireResponse (\n    input: {\n      questionnaireId: $questionnaire_id\n    }\n  ){\n    questionnaireResponse{\n      id,\n      sharableLink\n    }\n  }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "217"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Thu, 25 May 2023 17:15:39 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 26 May 2022 17:15:39 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"createQuestionnaireResponse\": {\n            \"questionnaireResponse\": {\n                \"id\": \"UXVlc3Rpb25uYWlyZVJlc3BvbnNlc05vZGU6NWFhMWExYjktOWUzOS00ZDNiLWJmYTktOWMwNTlmZTFmYjRl\",\n                \"sharableLink\": \"http://0.0.0.0:8000/api/v1/quiz/f06b49/\"\n            }\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Retrieve via Sharing link",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/quiz/b82677/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"quiz",
+								"b82677",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Retrieve Questionnaire",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/api/v1/quiz/802bed/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"quiz",
+										"802bed",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept, Cookie"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, HEAD, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "293"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 25 May 2022 16:13:52 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"UXVlc3Rpb25uYWlyZVJlc3BvbnNlc05vZGU6YjZmMGUxMWMtOWRjOC00YjNkLWI5NjUtMTBlODBhNjY4OTIx\",\n    \"created_at\": \"2022-05-25T16:13:34.296464Z\",\n    \"progress\": 1,\n    \"questionnaire\": {\n        \"id\": \"UXVlc3Rpb25uYWlyZU5vZGU6ZTNhZjMwYTgtYTIyNy00N2JmLWE2YTMtMjU2ZWVmNGFiY2E4\",\n        \"title\": \"All About Earth\"\n    },\n    \"total_questions\": 5\n}"
+						}
+					]
+				},
+				{
+					"name": "List",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query allQuestionnaireResponses ($first: Int = 10, $after: String, $questionnaireId: String){\n  allQuestionnaireResponses (first: $first, after: $after, questionnaireId: $questionnaireId){\n    totalCount,\n    edgeCount\n    edges {\n      node {\n        id,\n        questionnaire {\n          id,\n          title\n        }\n      },\n      cursor\n    },\n    pageInfo {\n      hasPreviousPage,\n      hasNextPage,\n      startCursor,\n      endCursor\n    }\n  }\n}",
+								"variables": "{\n    \"questionnaireId\": \"UXVlc3Rpb25uYWlyZU5vZGU6MzRiYTkzMzMtYmQ1Yi00M2UwLTgxMjktY2RhMWEyZjFkNTI5\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/graphql",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query allQuestionnaireResponses ($first: Int = 10, $after: String){\n  allQuestionnaireResponses (first: $first, after: $after){\n    totalCount,\n    edgeCount\n    edges {\n      node {\n        id,\n        questionnaire {\n          id,\n          title\n        }\n      },\n      cursor\n    },\n    pageInfo {\n      hasPreviousPage,\n      hasNextPage,\n      startCursor,\n      endCursor\n    }\n  }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "468"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Thu, 25 May 2023 18:16:51 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 26 May 2022 18:16:51 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"allQuestionnaireResponses\": {\n            \"totalCount\": 1,\n            \"edgeCount\": 1,\n            \"edges\": [\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25uYWlyZVJlc3BvbnNlc05vZGU6NWFhMWExYjktOWUzOS00ZDNiLWJmYTktOWMwNTlmZTFmYjRl\",\n                        \"questionnaire\": {\n                            \"id\": \"UXVlc3Rpb25uYWlyZU5vZGU6MzRiYTkzMzMtYmQ1Yi00M2UwLTgxMjktY2RhMWEyZjFkNTI5\",\n                            \"title\": \"Test\"\n                        }\n                    },\n                    \"cursor\": \"YXJyYXljb25uZWN0aW9uOjA=\"\n                }\n            ],\n            \"pageInfo\": {\n                \"hasPreviousPage\": false,\n                \"hasNextPage\": false,\n                \"startCursor\": \"YXJyYXljb25uZWN0aW9uOjA=\",\n                \"endCursor\": \"YXJyYXljb25uZWN0aW9uOjA=\"\n            }\n        }\n    }\n}"
+						},
+						{
+							"name": "List filter with Questionnaire ID",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query allQuestionnaireResponses ($first: Int = 10, $after: String, $questionnaireId: String){\n  allQuestionnaireResponses (first: $first, after: $after, questionnaireId: $questionnaireId){\n    totalCount,\n    edgeCount\n    edges {\n      node {\n        id,\n        questionnaire {\n          id,\n          title\n        }\n      },\n      cursor\n    },\n    pageInfo {\n      hasPreviousPage,\n      hasNextPage,\n      startCursor,\n      endCursor\n    }\n  }\n}",
+										"variables": "{\n    \"questionnaireId\": \"UXVlc3Rpb25uYWlyZU5vZGU6MzRiYTkzMzMtYmQ1Yi00M2UwLTgxMjktY2RhMWEyZjFkNTI5\"\n}"
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "468"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Thu, 25 May 2023 18:18:24 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 26 May 2022 18:18:24 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"allQuestionnaireResponses\": {\n            \"totalCount\": 1,\n            \"edgeCount\": 1,\n            \"edges\": [\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25uYWlyZVJlc3BvbnNlc05vZGU6NWFhMWExYjktOWUzOS00ZDNiLWJmYTktOWMwNTlmZTFmYjRl\",\n                        \"questionnaire\": {\n                            \"id\": \"UXVlc3Rpb25uYWlyZU5vZGU6MzRiYTkzMzMtYmQ1Yi00M2UwLTgxMjktY2RhMWEyZjFkNTI5\",\n                            \"title\": \"Test\"\n                        }\n                    },\n                    \"cursor\": \"YXJyYXljb25uZWN0aW9uOjA=\"\n                }\n            ],\n            \"pageInfo\": {\n                \"hasPreviousPage\": false,\n                \"hasNextPage\": false,\n                \"startCursor\": \"YXJyYXljb25uZWN0aW9uOjA=\",\n                \"endCursor\": \"YXJyYXljb25uZWN0aW9uOjA=\"\n            }\n        }\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Questionnaires",
+			"item": [
+				{
+					"name": "List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjUzMzU1MTI2LCJvcmlnSWF0IjoxNjUzMzU0ODI2fQ.QeHCi98mwfk8jxSjuBa8jygUOqOrPiL23IltapJt2wQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query AllQuestionnaires($first: Int = 10, $after: String, $byMe: Boolean = true) {\n  allQuestionnaires (first: $first, after: $after, byMe: $byMe) {\n      totalCount,\n      edgeCount,\n      edges {\n          node {\n              id,\n              title\n          }\n          cursor\n      },\n      pageInfo{\n          startCursor,\n          endCursor,\n          hasNextPage,\n          hasPreviousPage\n      }\n    }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/graphql",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query{\n  questionnairesList{\n    id,\n    title\n  }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "446"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Sat, 20 May 2023 20:44:16 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 21 May 2022 20:44:16 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"questionnairesList\": [\n            {\n                \"id\": \"40405ae1-8ac8-43c8-985f-d87c228d4cc0\",\n                \"title\": \"Capital Cities of Countries Across the Globe\"\n            },\n            {\n                \"id\": \"471291d2-3090-485b-afe1-185042970921\",\n                \"title\": \"Capital Cities of Countries\"\n            },\n            {\n                \"id\": \"029edf41-13d0-4889-b6e6-78d1d7202700\",\n                \"title\": \"Capital Cities of Countries\"\n            },\n            {\n                \"id\": \"bb8952ae-b79f-4a84-9bcd-237d10e055ff\",\n                \"title\": \"Questionnaire 2\"\n            },\n            {\n                \"id\": \"d6a0f545-e8d4-4925-846b-e4997b2652fd\",\n                \"title\": \"Questionnaire 1\"\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "List Paginated",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query AllQuestionnaires($first: Int = 1, $after: String = \"\") {\n  allQuestionnaires (first: $first, after: $after) {\n      totalCount,\n      edgeCount,\n      edges {\n          node {\n              id,\n              title\n          }\n          cursor\n      },\n      pageInfo{\n          startCursor,\n          endCursor,\n          hasNextPage,\n          hasPreviousPage\n      }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "364"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Mon, 22 May 2023 23:40:38 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 23 May 2022 23:40:38 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"allQuestionnaires\": {\n            \"totalCount\": 2,\n            \"edgeCount\": 1,\n            \"edges\": [\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25uYWlyZU5vZGU6YjkyODU2ZGQtNmIxZC00YjA5LTkxYjUtZDQwZTA2YzdlZWI2\",\n                        \"title\": \"All About Our Earth\"\n                    },\n                    \"cursor\": \"YXJyYXljb25uZWN0aW9uOjA=\"\n                }\n            ],\n            \"pageInfo\": {\n                \"startCursor\": \"YXJyYXljb25uZWN0aW9uOjA=\",\n                \"endCursor\": \"YXJyYXljb25uZWN0aW9uOjA=\",\n                \"hasNextPage\": true,\n                \"hasPreviousPage\": false\n            }\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Details",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query Questionnaire($id: ID!, $first: Int = 10, $after: String) {\n    questionnaire(id: $id){\n        id,\n        title,\n        questions (first: $first, after: $after){\n            totalCount,\n            edgeCount,\n            edges {\n                node {\n                    id,\n                    title,\n                    seqNo,\n                    type,\n                    choiceOptions\n                },\n                cursor\n            },\n            pageInfo {\n                startCursor,\n                endCursor,\n                hasNextPage, \n                hasPreviousPage\n            }\n        }\n    }\n}",
+								"variables": "{\n    \"id\": \"UXVlc3Rpb25uYWlyZU5vZGU6MzRiYTkzMzMtYmQ1Yi00M2UwLTgxMjktY2RhMWEyZjFkNTI5\"\n}"
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/graphql",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Details",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query Questionnaire($id: ID = \"UXVlc3Rpb25uYWlyZU5vZGU6ZTNhZjMwYTgtYTIyNy00N2JmLWE2YTMtMjU2ZWVmNGFiY2E4\", $first: Int = 10, $after: String) {\n    questionnaire(id: $id){\n        id,\n        title,\n        questions (first: $first, after: $after){\n            totalCount,\n            edgeCount,\n            edges {\n                node {\n                    id,\n                    title,\n                    seqNo,\n                    type,\n                    choiceOptions\n                },\n                cursor\n            },\n            pageInfo {\n                startCursor,\n                endCursor,\n                hasNextPage, \n                hasPreviousPage\n            }\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1412"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Wed, 24 May 2023 17:58:41 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 25 May 2022 17:58:41 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"questionnaire\": {\n            \"id\": \"UXVlc3Rpb25uYWlyZU5vZGU6ZTNhZjMwYTgtYTIyNy00N2JmLWE2YTMtMjU2ZWVmNGFiY2E4\",\n            \"title\": \"All About Earth\",\n            \"questions\": {\n                \"totalCount\": 5,\n                \"edgeCount\": 5,\n                \"edges\": [\n                    {\n                        \"node\": {\n                            \"id\": \"UXVlc3Rpb25zTm9kZTozZDk1N2MzYS04OTE5LTQ2ZjQtYjQ3ZS0yYjg2NDk3YTRhOWY=\",\n                            \"title\": \"What is the shape of the Earth?\",\n                            \"seqNo\": 1,\n                            \"type\": 0,\n                            \"choiceOptions\": null\n                        },\n                        \"cursor\": \"YXJyYXljb25uZWN0aW9uOjA=\"\n                    },\n                    {\n                        \"node\": {\n                            \"id\": \"UXVlc3Rpb25zTm9kZTozYWI4NWVjYS0zNzg0LTQ2MTctODVmMi01MmE1Y2NhZjkwZTU=\",\n                            \"title\": \"Which of this is not a continent?\",\n                            \"seqNo\": 1,\n                            \"type\": 3,\n                            \"choiceOptions\": [\n                                \"Asia\",\n                                \"Africa\",\n                                \"America\",\n                                \"Australia\"\n                            ]\n                        },\n                        \"cursor\": \"YXJyYXljb25uZWN0aW9uOjE=\"\n                    },\n                    {\n                        \"node\": {\n                            \"id\": \"UXVlc3Rpb25zTm9kZTozMzUwYjc4Ni1kMjlhLTRjMzMtOTU5MS04ZWFlNzYxMzE3Y2M=\",\n                            \"title\": \"Choose all oceans\",\n                            \"seqNo\": 1,\n                            \"type\": 2,\n                            \"choiceOptions\": [\n                                \"Indian\",\n                                \"Pacific\",\n                                \"Atlantic\",\n                                \"Caribbean\"\n                            ]\n                        },\n                        \"cursor\": \"YXJyYXljb25uZWN0aW9uOjI=\"\n                    },\n                    {\n                        \"node\": {\n                            \"id\": \"UXVlc3Rpb25zTm9kZTpiODkxZDdkOS1kMjhjLTQyMzctODU2NC1jNmYyNjgyNmJiMzc=\",\n                            \"title\": \"Is Pluto a part of solar system?\",\n                            \"seqNo\": 1,\n                            \"type\": 4,\n                            \"choiceOptions\": [\n                                \"Yes\",\n                                \"No\"\n                            ]\n                        },\n                        \"cursor\": \"YXJyYXljb25uZWN0aW9uOjM=\"\n                    },\n                    {\n                        \"node\": {\n                            \"id\": \"UXVlc3Rpb25zTm9kZTpjMmUwMWVkNC01MWY3LTQ4MWUtOWNjMi0wYTA2NDllMzdjNjQ=\",\n                            \"title\": \"Is there life on Earth?\",\n                            \"seqNo\": 2,\n                            \"type\": 0,\n                            \"choiceOptions\": null\n                        },\n                        \"cursor\": \"YXJyYXljb25uZWN0aW9uOjQ=\"\n                    }\n                ],\n                \"pageInfo\": {\n                    \"startCursor\": \"YXJyYXljb25uZWN0aW9uOjA=\",\n                    \"endCursor\": \"YXJyYXljb25uZWN0aW9uOjQ=\",\n                    \"hasNextPage\": false,\n                    \"hasPreviousPage\": false\n                }\n            }\n        }\n    }\n}"
+						},
+						{
+							"name": "Details after Edit",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query Questionnaire($id: ID = \"UXVlc3Rpb25uYWlyZU5vZGU6YjkyODU2ZGQtNmIxZC00YjA5LTkxYjUtZDQwZTA2YzdlZWI2\", $first: Int = 10, $after: String) {\n    questionnaire(id: $id){\n        id,\n        title,\n        questions (first: $first, after: $after){\n            edges {\n                node {\n                    id,\n                    title,\n                    seqNo,\n                    type,\n                    choiceOptions\n                },\n                cursor\n            },\n            pageInfo {\n                startCursor,\n                endCursor,\n                hasNextPage, \n                hasPreviousPage\n            }\n        }\n    }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1636"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Mon, 22 May 2023 22:04:32 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 23 May 2022 22:04:32 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"questionnaire\": {\n            \"id\": \"UXVlc3Rpb25uYWlyZU5vZGU6YjkyODU2ZGQtNmIxZC00YjA5LTkxYjUtZDQwZTA2YzdlZWI2\",\n            \"title\": \"All About Our Earth\",\n            \"questions\": {\n                \"edges\": [\n                    {\n                        \"node\": {\n                            \"id\": \"UXVlc3Rpb25zTm9kZTplMzY2ZTM5OC0zNzY5LTQ0MWQtODIxMy1kNTI1MzIwZTVjMmM=\",\n                            \"title\": \"What is the shape of the Earth?\",\n                            \"seqNo\": 1,\n                            \"type\": 0,\n                            \"choiceOptions\": null\n                        },\n                        \"cursor\": \"YXJyYXljb25uZWN0aW9uOjA=\"\n                    },\n                    {\n                        \"node\": {\n                            \"id\": \"UXVlc3Rpb25zTm9kZTphNGRmMWU1YS0wMDg0LTQzZTEtOWJjNi0xYzQxOGJlOWU3MmM=\",\n                            \"title\": \"Which of this is not a continent?\",\n                            \"seqNo\": 2,\n                            \"type\": 3,\n                            \"choiceOptions\": [\n                                \"Asia\",\n                                \"Africa\",\n                                \"America\",\n                                \"Australia\"\n                            ]\n                        },\n                        \"cursor\": \"YXJyYXljb25uZWN0aW9uOjE=\"\n                    },\n                    {\n                        \"node\": {\n                            \"id\": \"UXVlc3Rpb25zTm9kZTo4NGFhOGQ4Ny1lNTk1LTQ1MzgtYWVlYS03MGFlZGY3Y2VkYmI=\",\n                            \"title\": \"Choose all oceans\",\n                            \"seqNo\": 3,\n                            \"type\": 2,\n                            \"choiceOptions\": [\n                                \"Indian\",\n                                \"Pacific\",\n                                \"Atlantic\",\n                                \"Caribbean\"\n                            ]\n                        },\n                        \"cursor\": \"YXJyYXljb25uZWN0aW9uOjI=\"\n                    },\n                    {\n                        \"node\": {\n                            \"id\": \"UXVlc3Rpb25zTm9kZTpkYjBiZjQwYS1kMjYzLTRjNTUtOWM1NC1kZjk4YjMxNjE4OTg=\",\n                            \"title\": \"Is Ploto a part of solar system?\",\n                            \"seqNo\": 4,\n                            \"type\": 4,\n                            \"choiceOptions\": [\n                                \"Yes\",\n                                \"No\",\n                                \"Other\"\n                            ]\n                        },\n                        \"cursor\": \"YXJyYXljb25uZWN0aW9uOjM=\"\n                    },\n                    {\n                        \"node\": {\n                            \"id\": \"UXVlc3Rpb25zTm9kZToxMDJhNzJmZS04MzNjLTQzNDMtOGNlMy1iMGRjNTEyYjE0ZWM=\",\n                            \"title\": \"Is there life on Earth?\",\n                            \"seqNo\": 5,\n                            \"type\": 0,\n                            \"choiceOptions\": null\n                        },\n                        \"cursor\": \"YXJyYXljb25uZWN0aW9uOjQ=\"\n                    },\n                    {\n                        \"node\": {\n                            \"id\": \"UXVlc3Rpb25zTm9kZTo0NTlhNWRlNS01ZWE0LTQ1YWItOWIwMi01YjFmYzlhMjYzMmQ=\",\n                            \"title\": \"Which of the species are extinct?\",\n                            \"seqNo\": 6,\n                            \"type\": 3,\n                            \"choiceOptions\": [\n                                \"Tiger\",\n                                \"Dinosaur\",\n                                \"Human\",\n                                \"Lizzard\"\n                            ]\n                        },\n                        \"cursor\": \"YXJyYXljb25uZWN0aW9uOjU=\"\n                    }\n                ],\n                \"pageInfo\": {\n                    \"startCursor\": \"YXJyYXljb25uZWN0aW9uOjA=\",\n                    \"endCursor\": \"YXJyYXljb25uZWN0aW9uOjU=\",\n                    \"hasNextPage\": false,\n                    \"hasPreviousPage\": false\n                }\n            }\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation{\n  createQuestionnaire(\n    input: {\n      title: \"All About Earth\",\n      questions: [\n          {\n            title: \"What is the shape of the Earth?\",\n            type: 6,\n            seqNo: 1\n          },\n          {\n            title: \"Is there life on Earth?\",\n            type: 0,\n            seqNo: 2\n          },\n          {\n              title: \"Which of this is not a continent?\",\n              type: 3,\n              choiceOptions: [\n                  \"Asia\",\n                  \"Africa\",\n                  \"America\",\n                  \"Australia\"\n              ]\n          },\n          {\n              title: \"Choose all oceans\",\n              type: 2,\n              choiceOptions: [\n                  \"Indian\",\n                  \"Pacific\",\n                  \"Atlantic\",\n                  \"Caribbean\"\n              ]\n          },\n          {\n              title: \"Is Ploto a part of solar system?\",\n              type: 4,\n              choiceOptions: [\n                  \"Yes\",\n                  \"No\"\n              ]\n          }\n        ]\n    }){\n    questionnaire{\n      id,\n      title\n    }\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/graphql",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						},
+						"description": "API to create a questionnaire\n\nQuestion Type Enums:\n\n``` python\nSHORT_ANSWER = 0\nPARAGRAPH = 1\nCHECKBOXES = 2\nMULTIPLE_CHOICE = 3\nDROPDOWN = 4\n```"
+					},
+					"response": [
+						{
+							"name": "Create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation{\n  createQuestionnaire(\n    input: {\n      title: \"All About Earth\",\n      questions: [\n          {\n            title: \"What is the shape of the Earth?\",\n            type: 0,\n            seqNo: 1\n          },\n          {\n            title: \"Is there life on Earth?\",\n            type: 0,\n            seqNo: 2\n          },\n          {\n              title: \"Which of this is not a continent?\",\n              type: 3,\n              choiceOptions: [\n                  \"Asia\",\n                  \"Africa\",\n                  \"America\",\n                  \"Australia\"\n              ]\n          },\n          {\n              title: \"Choose all oceans\",\n              type: 2,\n              choiceOptions: [\n                  \"Indian\",\n                  \"Pacific\",\n                  \"Atlantic\",\n                  \"Caribbean\"\n              ]\n          },\n          {\n              title: \"Is Ploto a part of solar system?\",\n              type: 4,\n              choiceOptions: [\n                  \"Yes\",\n                  \"No\"\n              ]\n          }\n        ]\n    }){\n    questionnaire{\n      id,\n      title\n    }\n  }\n}\n",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "158"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Mon, 22 May 2023 21:23:31 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 23 May 2022 21:23:31 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"createQuestionnaire\": {\n            \"questionnaire\": {\n                \"id\": \"UXVlc3Rpb25uYWlyZU5vZGU6YjkyODU2ZGQtNmIxZC00YjA5LTkxYjUtZDQwZTA2YzdlZWI2\",\n                \"title\": \"All About Earth\"\n            }\n        }\n    }\n}"
+						},
+						{
+							"name": "Invalid question type",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation{\n  createQuestionnaire(\n    input: {\n      title: \"All About Earth\",\n      questions: [\n          {\n            title: \"What is the shape of the Earth?\",\n            type: 6,\n            seqNo: 1\n          },\n          {\n            title: \"Is there life on Earth?\",\n            type: 0,\n            seqNo: 2\n          },\n          {\n              title: \"Which of this is not a continent?\",\n              type: 3,\n              choiceOptions: [\n                  \"Asia\",\n                  \"Africa\",\n                  \"America\",\n                  \"Australia\"\n              ]\n          },\n          {\n              title: \"Choose all oceans\",\n              type: 2,\n              choiceOptions: [\n                  \"Indian\",\n                  \"Pacific\",\n                  \"Atlantic\",\n                  \"Caribbean\"\n              ]\n          },\n          {\n              title: \"Is Ploto a part of solar system?\",\n              type: 4,\n              choiceOptions: [\n                  \"Yes\",\n                  \"No\"\n              ]\n          }\n        ]\n    }){\n    questionnaire{\n      id,\n      title\n    }\n  }\n}\n",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "151"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Thu, 25 May 2023 18:27:33 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 26 May 2022 18:27:33 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": [\n        {\n            \"message\": \"Invalid question type\",\n            \"locations\": [\n                {\n                    \"line\": 2,\n                    \"column\": 3\n                }\n            ],\n            \"path\": [\n                \"createQuestionnaire\"\n            ]\n        }\n    ],\n    \"data\": {\n        \"createQuestionnaire\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdateQuestionnaire($id: String = \"UXVlc3Rpb25uYWlyZU5vZGU6YjkyODU2ZGQtNmIxZC00YjA5LTkxYjUtZDQwZTA2YzdlZWI2\") {\n  updateQuestionnaire (\n    input: {\n        id: $id,\n        title: \"All About Our Earth\",\n        questions: [\n        {\n            id: \"UXVlc3Rpb25zTm9kZTplMzY2ZTM5OC0zNzY5LTQ0MWQtODIxMy1kNTI1MzIwZTVjMmM=\"\n        },\n        {\n            id: \"UXVlc3Rpb25zTm9kZTphNGRmMWU1YS0wMDg0LTQzZTEtOWJjNi0xYzQxOGJlOWU3MmM=\"\n        },\n        {\n            id: \"UXVlc3Rpb25zTm9kZTo4NGFhOGQ4Ny1lNTk1LTQ1MzgtYWVlYS03MGFlZGY3Y2VkYmI=\"\n        },\n        {\n            id: \"UXVlc3Rpb25zTm9kZTpkYjBiZjQwYS1kMjYzLTRjNTUtOWM1NC1kZjk4YjMxNjE4OTg=\"\n        },\n        {\n            id: \"UXVlc3Rpb25zTm9kZToxMDJhNzJmZS04MzNjLTQzNDMtOGNlMy1iMGRjNTEyYjE0ZWM=\"\n        },\n        {\n            id: \"UXVlc3Rpb25zTm9kZTo2OWUxMmU1YS1hZTEzLTQ0ZjUtYjUxZC01NWNiMzBhOGYyYmE=\"\n\n        }\n      ]\n    }){\n    questionnaire{\n      id,\n      title\n    }\n  }\n}\n",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/graphql",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation UpdateQuestionnaire($id: ID = \"UXVlc3Rpb25uYWlyZU5vZGU6YjkyODU2ZGQtNmIxZC00YjA5LTkxYjUtZDQwZTA2YzdlZWI2\") {\n  updateQuestionnaire (\n    input: {\n        id: $id,\n        title: \"All About Our Earth\",\n        questions: [\n        {\n            id: \"UXVlc3Rpb25zTm9kZTplMzY2ZTM5OC0zNzY5LTQ0MWQtODIxMy1kNTI1MzIwZTVjMmM=\"\n        },\n        {\n            id: \"UXVlc3Rpb25zTm9kZTphNGRmMWU1YS0wMDg0LTQzZTEtOWJjNi0xYzQxOGJlOWU3MmM=\",\n            seqNo: 2\n        },\n        {\n            id: \"UXVlc3Rpb25zTm9kZTo4NGFhOGQ4Ny1lNTk1LTQ1MzgtYWVlYS03MGFlZGY3Y2VkYmI=\",\n            seqNo: 3\n        },\n        {\n            id: \"UXVlc3Rpb25zTm9kZTpkYjBiZjQwYS1kMjYzLTRjNTUtOWM1NC1kZjk4YjMxNjE4OTg=\",\n            seqNo: 4,\n            choiceOptions: [\n                \"Yes\",\n                \"No\",\n                \"Other\"\n            ]\n        },\n        {\n            id: \"UXVlc3Rpb25zTm9kZToxMDJhNzJmZS04MzNjLTQzNDMtOGNlMy1iMGRjNTEyYjE0ZWM=\",\n            seqNo: 5\n        },\n        {\n            title: \"Which of the species are extinct?\",\n            seqNo: 6,\n            type: 3,\n            choiceOptions: [\n                \"Tiger\",\n                \"Dinosaur\",\n                \"Human\",\n                \"Lizzard\"\n            ]\n\n        }\n      ]\n    }){\n    questionnaire{\n      id,\n      title\n    }\n  }\n}\n",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "162"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Mon, 22 May 2023 22:04:11 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 23 May 2022 22:04:11 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"updateQuestionnaire\": {\n            \"questionnaire\": {\n                \"id\": \"UXVlc3Rpb25uYWlyZU5vZGU6YjkyODU2ZGQtNmIxZC00YjA5LTkxYjUtZDQwZTA2YzdlZWI2\",\n                \"title\": \"All About Our Earth\"\n            }\n        }\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "User Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation{\n  signup(email: \"sahith2@gmail.com\", password: \"password\"){\n    user{\n      email,\n      isSuperuser,\n      id\n    }\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/graphql",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "User Register",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation{\n  signup(email: \"sahith88@gmail.com\", password: \"password\"){\n    user{\n      email,\n      isSuperuser,\n      id\n    }\n  }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "123"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Mon, 22 May 2023 21:22:19 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 23 May 2022 21:22:19 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"signup\": {\n            \"user\": {\n                \"email\": \"sahith88@gmail.com\",\n                \"isSuperuser\": false,\n                \"id\": \"5affbb9e-7591-4e4a-9b46-47ac231307ac\"\n            }\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "User Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation{\n  tokenAuth(username: \"admin\", password: \"password\"){\n    token\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/graphql",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "User Token",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation{\n  tokenAuth(username: \"sahith88@gmail.com\", password: \"password\"){\n    token\n  }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "211"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Mon, 22 May 2023 21:34:28 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 23 May 2022 21:34:28 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"tokenAuth\": {\n            \"token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InNhaGl0aDg4QGdtYWlsLmNvbSIsImV4cCI6MTY1MzM0MTk2OCwib3JpZ0lhdCI6MTY1MzM0MTY2OH0.p4e5OXZnTjDJ5VTu7mQLiWFsXg99BhT8hdH4bY2KKc0\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Fetch User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query{\n  user{\n    username,\n    email,\n    firstName,\n    lastName\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/graphql",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Fetch User",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query{\n  user{\n    username,\n    email,\n    firstName,\n    lastName\n  }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "109"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Sat, 20 May 2023 14:53:41 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 21 May 2022 14:53:41 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"user\": {\n            \"username\": \"sahith88@gmail.com\",\n            \"email\": \"sahith88@gmail.com\",\n            \"firstName\": \"\",\n            \"lastName\": \"\"\n        }\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Questions",
+			"item": [
+				{
+					"name": "List Questions",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query{\n  allQuestions (first: 2, after: \"YXJyYXljb25uZWN0aW9uOjE=\"){\n      edges {\n          node {\n              id,\n              title,\n              type,\n              choiceOptions,\n              seqNo\n          }\n          cursor\n      }\n      pageInfo {\n          hasNextPage,\n          hasPreviousPage\n      }\n  }\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/graphql",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "List Questions",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query{\n  questionsList{\n    id,\n    title,\n    type,\n    choiceOptions,\n    seqNo\n  }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1599"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Sat, 20 May 2023 20:44:43 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 21 May 2022 20:44:43 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"questionsList\": [\n            {\n                \"id\": \"d6ea3362-b6fc-45e9-9734-4079cd542dd7\",\n                \"title\": \"Question 1\",\n                \"type\": 0,\n                \"choiceOptions\": [],\n                \"seqNo\": 1\n            },\n            {\n                \"id\": \"c9b4c9bf-c217-401f-9937-fe54bc422e20\",\n                \"title\": \"Question 2\",\n                \"type\": 1,\n                \"choiceOptions\": [],\n                \"seqNo\": 1\n            },\n            {\n                \"id\": \"b4944dd6-cb44-4531-b0e4-dc39b6acc956\",\n                \"title\": \"Question 3\",\n                \"type\": 0,\n                \"choiceOptions\": [],\n                \"seqNo\": 1\n            },\n            {\n                \"id\": \"10ffe817-e4f4-49fe-b0e7-bf203c349370\",\n                \"title\": \"What is the caiptal city of India?\",\n                \"type\": 3,\n                \"choiceOptions\": [\n                    \"Chennai\",\n                    \"Hyderabad\",\n                    \"New Delhi\",\n                    \"Mumbai\"\n                ],\n                \"seqNo\": 1\n            },\n            {\n                \"id\": \"ad087873-9c80-4a08-96cd-d250f11beb36\",\n                \"title\": \"What is the capital city of England?\",\n                \"type\": 3,\n                \"choiceOptions\": [\n                    \"Birmingham\",\n                    \"Newcastle Upon Tyne\",\n                    \"England\",\n                    \"Manchester\"\n                ],\n                \"seqNo\": 1\n            },\n            {\n                \"id\": \"efeaa4e6-701b-45b3-842c-0d125d471ca0\",\n                \"title\": \"What is the caiptal city of India?\",\n                \"type\": 3,\n                \"choiceOptions\": [\n                    \"Chennai\",\n                    \"Hyderabad\",\n                    \"New Delhi\",\n                    \"Mumbai\"\n                ],\n                \"seqNo\": 1\n            },\n            {\n                \"id\": \"128e6d05-1f1d-4265-83bc-bd3f2be54b4d\",\n                \"title\": \"What is the capital city of England?\",\n                \"type\": 3,\n                \"choiceOptions\": [\n                    \"Birmingham\",\n                    \"Newcastle Upon Tyne\",\n                    \"England\",\n                    \"Manchester\"\n                ],\n                \"seqNo\": 1\n            },\n            {\n                \"id\": \"7b554bb0-984c-48be-ae81-72d3e020dd8e\",\n                \"title\": \"What is the caiptal city of India?\",\n                \"type\": 3,\n                \"choiceOptions\": [\n                    \"Chennai\",\n                    \"Hyderabad\",\n                    \"New Delhi\",\n                    \"Mumbai\"\n                ],\n                \"seqNo\": 1\n            },\n            {\n                \"id\": \"ea7173c0-7c10-4ef8-a934-287f54fc0ac4\",\n                \"title\": \"What is the capital city of England?\",\n                \"type\": 3,\n                \"choiceOptions\": [\n                    \"Birmingham\",\n                    \"Newcastle Upon Tyne\",\n                    \"England\",\n                    \"Manchester\"\n                ],\n                \"seqNo\": 2\n            },\n            {\n                \"id\": \"8ebdaebf-be6f-4070-b016-4b5004fb1745\",\n                \"title\": \"What is the capital city of Germany?\",\n                \"type\": 3,\n                \"choiceOptions\": [\n                    \"Hamburg\",\n                    \"Munich\",\n                    \"Stuttgart\",\n                    \"Düsseldorf\"\n                ],\n                \"seqNo\": 3\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "List Questions by Type",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query{\n  questionsList(types: 3){\n    id,\n    title,\n    type,\n    choiceOptions,\n    seqNo\n  }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1284"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Sat, 20 May 2023 20:45:37 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 21 May 2022 20:45:37 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"questionsList\": [\n            {\n                \"id\": \"10ffe817-e4f4-49fe-b0e7-bf203c349370\",\n                \"title\": \"What is the caiptal city of India?\",\n                \"type\": 3,\n                \"choiceOptions\": [\n                    \"Chennai\",\n                    \"Hyderabad\",\n                    \"New Delhi\",\n                    \"Mumbai\"\n                ],\n                \"seqNo\": 1\n            },\n            {\n                \"id\": \"ad087873-9c80-4a08-96cd-d250f11beb36\",\n                \"title\": \"What is the capital city of England?\",\n                \"type\": 3,\n                \"choiceOptions\": [\n                    \"Birmingham\",\n                    \"Newcastle Upon Tyne\",\n                    \"England\",\n                    \"Manchester\"\n                ],\n                \"seqNo\": 1\n            },\n            {\n                \"id\": \"efeaa4e6-701b-45b3-842c-0d125d471ca0\",\n                \"title\": \"What is the caiptal city of India?\",\n                \"type\": 3,\n                \"choiceOptions\": [\n                    \"Chennai\",\n                    \"Hyderabad\",\n                    \"New Delhi\",\n                    \"Mumbai\"\n                ],\n                \"seqNo\": 1\n            },\n            {\n                \"id\": \"128e6d05-1f1d-4265-83bc-bd3f2be54b4d\",\n                \"title\": \"What is the capital city of England?\",\n                \"type\": 3,\n                \"choiceOptions\": [\n                    \"Birmingham\",\n                    \"Newcastle Upon Tyne\",\n                    \"England\",\n                    \"Manchester\"\n                ],\n                \"seqNo\": 1\n            },\n            {\n                \"id\": \"7b554bb0-984c-48be-ae81-72d3e020dd8e\",\n                \"title\": \"What is the caiptal city of India?\",\n                \"type\": 3,\n                \"choiceOptions\": [\n                    \"Chennai\",\n                    \"Hyderabad\",\n                    \"New Delhi\",\n                    \"Mumbai\"\n                ],\n                \"seqNo\": 1\n            },\n            {\n                \"id\": \"ea7173c0-7c10-4ef8-a934-287f54fc0ac4\",\n                \"title\": \"What is the capital city of England?\",\n                \"type\": 3,\n                \"choiceOptions\": [\n                    \"Birmingham\",\n                    \"Newcastle Upon Tyne\",\n                    \"England\",\n                    \"Manchester\"\n                ],\n                \"seqNo\": 2\n            },\n            {\n                \"id\": \"8ebdaebf-be6f-4070-b016-4b5004fb1745\",\n                \"title\": \"What is the capital city of Germany?\",\n                \"type\": 3,\n                \"choiceOptions\": [\n                    \"Hamburg\",\n                    \"Munich\",\n                    \"Stuttgart\",\n                    \"Düsseldorf\"\n                ],\n                \"seqNo\": 3\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "List Questions 2",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query{\n  questionsList {\n      edges {\n          node {\n              id,\n              title,\n              type,\n              choiceOptions,\n              seqNo\n          }\n      }\n  }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2019"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Sat, 20 May 2023 22:11:59 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 21 May 2022 22:11:59 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"questionsList\": {\n            \"edges\": [\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZTpkNmVhMzM2Mi1iNmZjLTQ1ZTktOTczNC00MDc5Y2Q1NDJkZDc=\",\n                        \"title\": \"Question 1\",\n                        \"type\": 0,\n                        \"choiceOptions\": [],\n                        \"seqNo\": 1\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZTpjOWI0YzliZi1jMjE3LTQwMWYtOTkzNy1mZTU0YmM0MjJlMjA=\",\n                        \"title\": \"Question 2\",\n                        \"type\": 1,\n                        \"choiceOptions\": [],\n                        \"seqNo\": 1\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZTpiNDk0NGRkNi1jYjQ0LTQ1MzEtYjBlNC1kYzM5YjZhY2M5NTY=\",\n                        \"title\": \"Question 3\",\n                        \"type\": 0,\n                        \"choiceOptions\": [],\n                        \"seqNo\": 1\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZToxMGZmZTgxNy1lNGY0LTQ5ZmUtYjBlNy1iZjIwM2MzNDkzNzA=\",\n                        \"title\": \"What is the caiptal city of India?\",\n                        \"type\": 3,\n                        \"choiceOptions\": [\n                            \"Chennai\",\n                            \"Hyderabad\",\n                            \"New Delhi\",\n                            \"Mumbai\"\n                        ],\n                        \"seqNo\": 1\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZTphZDA4Nzg3My05YzgwLTRhMDgtOTZjZC1kMjUwZjExYmViMzY=\",\n                        \"title\": \"What is the capital city of England?\",\n                        \"type\": 3,\n                        \"choiceOptions\": [\n                            \"Birmingham\",\n                            \"Newcastle Upon Tyne\",\n                            \"England\",\n                            \"Manchester\"\n                        ],\n                        \"seqNo\": 1\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZTplZmVhYTRlNi03MDFiLTQ1YjMtODQyYy0wZDEyNWQ0NzFjYTA=\",\n                        \"title\": \"What is the caiptal city of India?\",\n                        \"type\": 3,\n                        \"choiceOptions\": [\n                            \"Chennai\",\n                            \"Hyderabad\",\n                            \"New Delhi\",\n                            \"Mumbai\"\n                        ],\n                        \"seqNo\": 1\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZToxMjhlNmQwNS0xZjFkLTQyNjUtODNiYy1iZDNmMmJlNTRiNGQ=\",\n                        \"title\": \"What is the capital city of England?\",\n                        \"type\": 3,\n                        \"choiceOptions\": [\n                            \"Birmingham\",\n                            \"Newcastle Upon Tyne\",\n                            \"England\",\n                            \"Manchester\"\n                        ],\n                        \"seqNo\": 1\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZTo3YjU1NGJiMC05ODRjLTQ4YmUtYWU4MS03MmQzZTAyMGRkOGU=\",\n                        \"title\": \"What is the caiptal city of India?\",\n                        \"type\": 3,\n                        \"choiceOptions\": [\n                            \"Chennai\",\n                            \"Hyderabad\",\n                            \"New Delhi\",\n                            \"Mumbai\"\n                        ],\n                        \"seqNo\": 1\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZTplYTcxNzNjMC03YzEwLTRlZjgtYTkzNC0yODdmNTRmYzBhYzQ=\",\n                        \"title\": \"What is the capital city of England?\",\n                        \"type\": 3,\n                        \"choiceOptions\": [\n                            \"Birmingham\",\n                            \"Newcastle Upon Tyne\",\n                            \"England\",\n                            \"Manchester\"\n                        ],\n                        \"seqNo\": 2\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZTo4ZWJkYWViZi1iZTZmLTQwNzAtYjAxNi00YjUwMDRmYjE3NDU=\",\n                        \"title\": \"What is the capital city of Germany?\",\n                        \"type\": 3,\n                        \"choiceOptions\": [\n                            \"Hamburg\",\n                            \"Munich\",\n                            \"Stuttgart\",\n                            \"Düsseldorf\"\n                        ],\n                        \"seqNo\": 3\n                    }\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "List Questions by Type 2",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query{\n  questionsList (type: \"3\"){\n      edges {\n          node {\n              id,\n              title,\n              type,\n              choiceOptions,\n              seqNo\n          }\n      }\n  }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1581"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Sat, 20 May 2023 22:28:26 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 21 May 2022 22:28:26 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"questionsList\": {\n            \"edges\": [\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZToxMGZmZTgxNy1lNGY0LTQ5ZmUtYjBlNy1iZjIwM2MzNDkzNzA=\",\n                        \"title\": \"What is the caiptal city of India?\",\n                        \"type\": 3,\n                        \"choiceOptions\": [\n                            \"Chennai\",\n                            \"Hyderabad\",\n                            \"New Delhi\",\n                            \"Mumbai\"\n                        ],\n                        \"seqNo\": 1\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZTphZDA4Nzg3My05YzgwLTRhMDgtOTZjZC1kMjUwZjExYmViMzY=\",\n                        \"title\": \"What is the capital city of England?\",\n                        \"type\": 3,\n                        \"choiceOptions\": [\n                            \"Birmingham\",\n                            \"Newcastle Upon Tyne\",\n                            \"England\",\n                            \"Manchester\"\n                        ],\n                        \"seqNo\": 1\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZTplZmVhYTRlNi03MDFiLTQ1YjMtODQyYy0wZDEyNWQ0NzFjYTA=\",\n                        \"title\": \"What is the caiptal city of India?\",\n                        \"type\": 3,\n                        \"choiceOptions\": [\n                            \"Chennai\",\n                            \"Hyderabad\",\n                            \"New Delhi\",\n                            \"Mumbai\"\n                        ],\n                        \"seqNo\": 1\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZToxMjhlNmQwNS0xZjFkLTQyNjUtODNiYy1iZDNmMmJlNTRiNGQ=\",\n                        \"title\": \"What is the capital city of England?\",\n                        \"type\": 3,\n                        \"choiceOptions\": [\n                            \"Birmingham\",\n                            \"Newcastle Upon Tyne\",\n                            \"England\",\n                            \"Manchester\"\n                        ],\n                        \"seqNo\": 1\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZTo3YjU1NGJiMC05ODRjLTQ4YmUtYWU4MS03MmQzZTAyMGRkOGU=\",\n                        \"title\": \"What is the caiptal city of India?\",\n                        \"type\": 3,\n                        \"choiceOptions\": [\n                            \"Chennai\",\n                            \"Hyderabad\",\n                            \"New Delhi\",\n                            \"Mumbai\"\n                        ],\n                        \"seqNo\": 1\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZTplYTcxNzNjMC03YzEwLTRlZjgtYTkzNC0yODdmNTRmYzBhYzQ=\",\n                        \"title\": \"What is the capital city of England?\",\n                        \"type\": 3,\n                        \"choiceOptions\": [\n                            \"Birmingham\",\n                            \"Newcastle Upon Tyne\",\n                            \"England\",\n                            \"Manchester\"\n                        ],\n                        \"seqNo\": 2\n                    }\n                },\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZTo4ZWJkYWViZi1iZTZmLTQwNzAtYjAxNi00YjUwMDRmYjE3NDU=\",\n                        \"title\": \"What is the capital city of Germany?\",\n                        \"type\": 3,\n                        \"choiceOptions\": [\n                            \"Hamburg\",\n                            \"Munich\",\n                            \"Stuttgart\",\n                            \"Düsseldorf\"\n                        ],\n                        \"seqNo\": 3\n                    }\n                }\n            ]\n        }\n    }\n}"
+						},
+						{
+							"name": "List Questions Paginated",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query{\n  questionsList (first: 2, after: \"YXJyYXljb25uZWN0aW9uOjE=\"){\n      edges {\n          node {\n              id,\n              title,\n              type,\n              choiceOptions,\n              seqNo\n          }\n          cursor\n      }\n      pageInfo {\n          hasNextPage,\n          hasPreviousPage\n      }\n  }\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/graphql",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Cookie"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "524"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "csrftoken=3qo7VeyOnfZCya2ByFSDPcYzzcUn53Y5X5QZVhrPB2Fo4JB4g6gERln1V5JdBt1r; expires=Sat, 20 May 2023 22:33:32 GMT; Max-Age=31449600; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/2.0.3 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 21 May 2022 22:33:32 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"questionsList\": {\n            \"edges\": [\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZToxMGZmZTgxNy1lNGY0LTQ5ZmUtYjBlNy1iZjIwM2MzNDkzNzA=\",\n                        \"title\": \"What is the caiptal city of India?\",\n                        \"type\": 3,\n                        \"choiceOptions\": [\n                            \"Chennai\",\n                            \"Hyderabad\",\n                            \"New Delhi\",\n                            \"Mumbai\"\n                        ],\n                        \"seqNo\": 1\n                    },\n                    \"cursor\": \"YXJyYXljb25uZWN0aW9uOjI=\"\n                },\n                {\n                    \"node\": {\n                        \"id\": \"UXVlc3Rpb25zTm9kZTpkNmVhMzM2Mi1iNmZjLTQ1ZTktOTczNC00MDc5Y2Q1NDJkZDc=\",\n                        \"title\": \"Question 1\",\n                        \"type\": 0,\n                        \"choiceOptions\": [],\n                        \"seqNo\": 1\n                    },\n                    \"cursor\": \"YXJyYXljb25uZWN0aW9uOjM=\"\n                }\n            ],\n            \"pageInfo\": {\n                \"hasNextPage\": true,\n                \"hasPreviousPage\": false\n            }\n        }\n    }\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}

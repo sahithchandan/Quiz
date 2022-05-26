@@ -12,7 +12,7 @@ class QuestionnaireQueryManager(BaseQueryManager):
             queryset = queryset.prefetch_related('questions')
         return queryset
 
-    def by_user(self, user):
+    def created_by(self, user):
         return self.filter(created_by=user)
 
 
@@ -46,11 +46,19 @@ class QuestionnaireResponsesQueryManager(BaseQueryManager):
             queryset = queryset.prefetch_related('answers__question')
         return queryset
 
+    def for_questionnaires(self, questionnaire_ids):
+        if not isinstance(questionnaire_ids, list):
+            questionnaire_ids = [questionnaire_ids]
+        return self.filter(questionnaire_id__in=questionnaire_ids)
+
     def not_started(self):
         return self.filter(progress=QuestionnaireProgressChoices.NOT_STARTED)
 
     def with_pin(self, pin):
         return self.filter(pin=pin)
 
-    def by_user(self, user):
+    def created_by(self, user):
         return self.filter(created_by=user)
+
+    def answered_by(self, email):
+        return self.filter(answered_by=email)

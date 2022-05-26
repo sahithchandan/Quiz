@@ -5,7 +5,7 @@ from graphql import GraphQLError
 from graphql_jwt.decorators import login_required
 from graphql_relay import from_global_id
 
-from api.utils import get_object, filter_objects, generate_pin
+from api.utils import get_object, filter_objects
 from api.quiz.models import Questionnaire, Questions, QuestionnaireResponses, Answers
 from api.quiz.schema import QuestionnaireNode, QuestionnaireResponsesNode
 from api.quiz.choices import QuestionnaireProgressChoices, QuestionTypeChoices
@@ -122,7 +122,7 @@ class CreateQuestionnaireResponses(relay.ClientIDMutation):
         Create a QuestionnaireResponses for sharing a Questionnaire
     """
     class Input:
-        questionnaire_id = graphene.String(required=True)
+        questionnaire_id = graphene.ID(required=True)
 
     questionnaire_response = graphene.Field(QuestionnaireResponsesNode)
 
@@ -133,9 +133,8 @@ class CreateQuestionnaireResponses(relay.ClientIDMutation):
         questionnaire = get_object(Questionnaire, data['questionnaire_id'])
         if not questionnaire:
             raise GraphQLError("Questionnaire not found")
-        questionnaire_response = QuestionnaireResponses.objects.create(pin=generate_pin(),
-                                                                       questionnaire=questionnaire,
-                                                                       created_by=info.context.user)
+        questionnaire_response, _ = QuestionnaireResponses.objects.get_or_create(questionnaire=questionnaire,
+                                                                                 created_by=info.context.user)
         return CreateQuestionnaireResponses(questionnaire_response=questionnaire_response)
 
 
@@ -154,8 +153,13 @@ class CreateQuestionnaireResponseAnswers(relay.ClientIDMutation):
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **data):
         questionnaire_response = get_object(QuestionnaireResponses, data['questionnaire_response_id'])
-        if questionnaire_response.progress == QuestionnaireProgressChoices.COMPLETED:
-            raise GraphQLError('You have already submitted the questionnaire')
+
+        answered_by = data.get('email')
+        if answered_by:
+            if QuestionnaireResponses.filter.for_questionnaires(
+                    questionnaire_response.questionnaire.id
+            ).answered_by(answered_by):
+                raise GraphQLError('You have already submitted the questionnaire')
 
         # answers data for bulk creating the Answers
         answers_data = [
@@ -168,7 +172,7 @@ class CreateQuestionnaireResponseAnswers(relay.ClientIDMutation):
         # set answers for the unique questionnaire link
         questionnaire_response.answers.set(answers)
         questionnaire_response.progress = QuestionnaireProgressChoices.COMPLETED
-        questionnaire_response.answered_by = data.get('email')
+        questionnaire_response.answered_by = answered_by
         questionnaire_response.save()
         return cls(questionnaire_response=None)
 
@@ -186,7 +190,7 @@ class DeleteQuestionnaire(relay.ClientIDMutation):
     @login_required
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **data):
-        questionnaire = filter_objects(Questionnaire, data['questionnaire_id']).by_user(info.context.user).first()
+        questionnaire = filter_objects(Questionnaire, data['questionnaire_id']).created_by(info.context.user).first()
         if not questionnaire:
             raise GraphQLError('You do not have permission to delete the questionnaire')
 

@@ -11,7 +11,7 @@ class QuestionnaireResponsesRetrieveView(generics.RetrieveAPIView):
          Questionnaire Response retrieve view
     """
     serializer_class = QuestionnaireResponsesRetrieveSerializer
-    queryset = QuestionnaireResponses.filter.not_started().with_select_related().all()
+    queryset = QuestionnaireResponses.filter.with_select_related().all()
     lookup_url_kwarg = 'pin'
 
     def get_object(self):
@@ -19,9 +19,17 @@ class QuestionnaireResponsesRetrieveView(generics.RetrieveAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
+
+        if instance.progress != QuestionnaireProgressChoices.NOT_STARTED:
+            # create a copy of questionnaire response model if the link has already been
+            # accessed by one of the user
+            instance.pk = None
+            instance._state.adding = True
+            instance.save()
+
         instance.progress = QuestionnaireProgressChoices.IN_PROGRESS
         instance.save()
         serializer = self.get_serializer(instance)
 
-        # redirect to a web url with necessary data
+        # we can also redirect to a web url by including instance ID in query parameters
         return Response(serializer.data)

@@ -8,4 +8,3 @@ from api.utils import generate_pin
 @receiver(pre_save, sender=QuestionnaireResponses)
 def questionnaire_responses(sender, instance, **kwargs):
     instance.pin = generate_pin()
-    instance.save()
